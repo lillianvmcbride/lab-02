@@ -27,15 +27,23 @@ Creature.all = [];
 Creature.prototype.render = function () {
   let $renderedCreature = $('.creature-template').clone();
   $renderedCreature.removeClass('creature-template');
+  $renderedCreature.attr('class', this.keyword);
   $renderedCreature.find('.title').text(this.title);
   // $renderedCreature.find('.keyword').text(this.keyword);
   //$renderedCreature.find('.horns').text(this.horns);
   $renderedCreature.find('.image_url').attr('src', this.image_url);
   $renderedCreature.find('.image_url').attr('alt', this.title);
   $renderedCreature.find('.description').text(`${this.description}`);
+  $('select').append(`<option value="${this.keyword}">${this.keyword}</option>`);
   return $renderedCreature;
 };
 function renderCreature() {
   Creature.all.forEach(creature => $('#photo-gallery').append(creature.render()));
   $('.creature-template').remove();
 }
+$('select').change( () => {
+  const selection = $('select').find(':selected').text();
+  console.log(selection);
+  $('section').hide();
+  $(`section.${selection}`).show();
+})
